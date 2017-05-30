@@ -1,0 +1,23 @@
+% Three lines below copied from test_kernel_cic
+of nat (sort (s+type u+0)).
+of o nat.
+of s (app (lam (sort (s+type u+0)) x\ x) (arr nat _\ nat)). 
+
+
+% let f x = x + 1
+% of addtwo (app (lam (sort (s+type u+1)) x\ (app s x))) (arr nat _\ nat). 
+
+% structure test worked out, so there's definitely something wrong with the typing here...
+main_fstar :- 
+%    P1 = (lam (sort (s+type u+1)) t\ lam t x\ x), including type in lambda...
+%   of P1 P1T, $print 1 P1T, !,
+%    P2 = (app addtwo (app s o)), FAILS RIGHT NOW, what to do? -- Surely it's because of misuse of 'of' predicate and application.
+%    of P2 P2T, $print 2 P2T, !,
+     ADDTWO1 = (lam (sort (s+type u+0)) x\ (app s o)),
+     of ADDTWO1 ADDTWO1T, $print 3 ADDTWO1T, !,
+%     NP1 = (lam (sort (s+type u+0)) x\ x), works
+%     of NP1 NP1T, $print 4 NP1T, !,
+%    P1 = (lam (sort (s+type u+1)) t\ lam t x\ x),
+%    of P1 P1T, $print 1 P1T, !,
+    true.
+    
