@@ -1,11 +1,21 @@
 % Three lines below copied from test_kernel_cic
 of nat (sort (s+type u+0)).
 of o nat.
-of s (app (lam (sort (s+type u+0)) x\ x) (arr nat _\ nat)). 
+
+of s (arr nat _\ nat). 
 
 
-% let f x = x + 1
-% of addtwo (app (lam (sort (s+type u+1)) x\ (app s x))) (arr nat _\ nat). 
+% Isn't that a useless application below? just identity?
+% of s (app (lam (sort (s+type u+0)) x\ x) (arr nat _\ nat)). 
+
+
+% let Incr x = x + 1
+
+% THIS FAILS: 
+% Incr = (lam (sort (s+type u+0)) x\ (app s x)),
+% As does this:
+% Incr = (lam (sort (s+type u+0)) nat\ (app s nat)),
+% In fact, this church encoding seems to be the wrong idea. 
 
 % structure test worked out, so there's definitely something wrong with the typing here...
 main_fstar :- 
@@ -14,7 +24,7 @@ main_fstar :-
      P2 = (app (app P1 nat) (app s o)),
      of P2 P2T, $print 2 P2T, !,
      Const = (lam (sort (s+type u+0)) _\ (app s o)),
-     of Const Constt, $print 3 Constt, !
+     of Const Constt, $print 3 Constt, !,
      Incr = (lam (sort (s+type u+0)) x\ (app s x)),
      of Incr Incrt, $print 4 Incrt, !,
      true.
