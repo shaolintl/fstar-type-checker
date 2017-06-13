@@ -1,0 +1,72 @@
+%% To be accumulated *before* kernel_pts to turn the kernel into a refiner
+% vim: set ft=lprolog:
+
+mode (whd1 i i o).
+whd1 ?? _ _ :- fail.
+
+mode (comp i i i i i).
+
+comp A B C D E :- $print "##" (comp A B C D E), fail.
+
+%%%%%%%%%% BUG/TODO:
+% - Mancano casi X vs X e X vs Y
+
+% T1 :- lam TYA F  + beta step
+comp (?? as T1) [A|AS] M T2 L2 :-
+ of A TYA, T1 = lam TYA F, pi x \ val x TYA A _NF => comp (F x) AS M T2 L2.
+
+% PROJECTION
+comp (?? as V1) [] M T2 S2 :- val X _ _ _, V1 = X, comp V1 [] M T2 S2, !.
+
+% MIMIC
+% non empty stack = application
+comp (?? as V1) [] _ T2 S2 :-
+ append S21 [S2l] S2,
+ V1 = app X Y, comp X [] eq T2 S21, comp Y [] eq S2l [].
+% regular mimic rules
+comp (?? as V1) [] M T2 [] :- mcomp V1 M T2. % mcomp used generatively
+% variables and constants
+comp (?? as V1) [] M T2 [] :- V1 = T2.
+
+% REDUCTION
+comp (?? as V1) [] D T2 S2 :- whd1 T2 S2 (_ \ t2 \ s2 \ comp V1 [] D t2 s2).
+
+% FAIL
+comp ?? [] _ _ _ :- !, fail. % to avoid falling back in the fast path of the
+                             % kernel
+
+% MIMIC
+mcomp (sort I) eq (sort I) :- !.
+mcomp (sort J) leq (sort I) :- !, leq J I.
+mcomp (app A1 B1) _ (app A2 B2) :- !, comp A1 [] eq A2 [], comp B1 [] eq B2 [].
+mcomp (lam TY1 F1) _ (lam TY2 F2) :-
+ !, comp TY1 [] eq TY2 [], (pi x \ comp (F1 x) [] eq (F2 x) []).
+mcomp (arr TY1 F1) M (arr TY2 F2) :-
+ !, comp TY1 [] eq TY2 [], (pi x \ comp (F1 x) [] M (F2 x) []).
+
+
+%%%%%%%%% symmetric cases
+
+% T1 :- lam TYA F  + beta step
+comp T2 L2 M (?? as T1) [A|AS] :-
+ of A TYA, T1 = lam TYA F, pi x \ val x TYA A _NF => comp T2 L2 M (F x) AS.
+
+% PROJECTION
+comp T2 S2 M (?? as V1) :- val X _ _ _, V1 = X, comp T2 S2 M V1 [], !.
+
+% MIMIC
+% non empty stack = application
+comp T2 S2 _ (?? as V1) [] :-
+ append S21 [S2l] S2,
+ V1 = app X Y, comp T2 S21 eq X [], comp S2l [] eq Y [].
+% regular mimic rules
+comp T2 [] M (?? as V1) [] :- mcomp T2 M V1. % mcomp used generatively
+% variables and constants
+comp T2 [] M (?? as V1) [] :- V1 = T2.
+
+% REDUCTION
+comp T2 S2 D (?? as V1) [] :- whd1 T2 S2 (_ \ t2 \ s2 \ comp t2 s2 D V1 []).
+
+% FAIL
+comp _ _ _ ?? [] :- !, fail. % to avoid falling back in the fast path of the
+                             % kernel
