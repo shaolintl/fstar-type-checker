@@ -1,0 +1,11 @@
+% KERNEL PIPELINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+accumulate logic.
+accumulate list.
+accumulate cic/alt_1/kernel_pts.
+accumulate cic/alt_1/kernel_conversion.
+accumulate cic/alt_1/kernel_case.
+accumulate cic/alt_1/kernel_inductives.
+accumulate cic/alt_1/kernel_global.
+accumulate cic/alt_1/kernel_computation.
+accumulate Fstartest.

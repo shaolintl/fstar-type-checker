@@ -19,13 +19,13 @@ of s (arr nat _\ nat).
 
 % structure test worked out, so there's definitely something wrong with the typing here...
 main_fstar :- 
-     P1 = (lam (sort (s+type u+1)) t\ lam t x\ x),
-     of P1 P1T, $print 1 P1T, !,
-     P2 = (app (app P1 nat) (app s o)),
-     of P2 P2T, $print 2 P2T, !,
-     Const = (lam (sort (s+type u+0)) _\ (app s o)),
-     of Const Constt, $print 3 Constt, !,
-     Incr = (lam (sort (s+type u+0)) x\ (app s x)),
-     of Incr Incrt, $print 4 Incrt, !,
+%     P1 = (lam (sort (s+type u+1)) t\ lam t x\ x),
+%     of P1 P1T, $print 1 P1T, !,
+%     P2 = (app (app P1 nat) (app s o)),
+%     of P2 P2T, $print 2 P2T, !,
+%     Const = (lam (sort (s+type u+0)) _\ (app s o)),
+%     of Const Constt, $print 3 Constt, !,
+%     Incr = (lam (sort (s+type u+0)) x\ (app s x)),
+%     of Incr Incrt, $print 4 Incrt, !,
      true.
     
