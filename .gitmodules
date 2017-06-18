@@ -1,3 +1,6 @@
 [submodule "elpi"]
 	path = elpi
 	url = https://github.com/LPCIC/elpi.git
+[submodule "matita"]
+	path = matita
+	url = https://github.com/LPCIC/matita.git
